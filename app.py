@@ -66,15 +66,21 @@ def load_models():
         # Load models
         try:
             logger.info("Loading classifier...")
-            classifier = joblib.load(file_path)
+            classifier_path = os.path.join(BASE_DIR, model_files['classifier'])
+            with open(classifier_path, 'rb') as f:
+                classifier = pickle.load(f)
             logger.info("Classifier loaded successfully")
             
             logger.info("Loading regressor...")
-            regressor = joblib.load(file_path)
+            regressor_path = os.path.join(BASE_DIR, model_files['regressor'])
+            with open(regressor_path, 'rb') as f:
+                regressor = pickle.load(f)
             logger.info("Regressor loaded successfully")
             
             logger.info("Loading scaler...")
-            scaler = joblib.load(file_path)
+            scaler_path = os.path.join(BASE_DIR, model_files['scaler'])
+            with open(scaler_path, 'rb') as f:
+                scaler = pickle.load(f)
             logger.info("Scaler loaded successfully")
         except Exception as e:
             logger.error(f"Error loading model: {str(e)}")
