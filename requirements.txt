@@ -1,0 +1,13 @@
+flask
+pandas
+setuptools
+numpy>=1.24.0
+matplotlib
+seaborn
+scipy
+scikit-learn
+scikit-surprise
+joblib
+gunicorn
+xgboost
+pickle

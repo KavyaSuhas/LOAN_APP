@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files
+*.csv
+dataset.csv
+cleaned_loan_data.csv
+
+# Model files
+*.pkl
+*.joblib
+*.h5
+*.model
+
+# Images
+*.png
+
+# Logs
+*.log
+
+# Large files
+*.csv
+*.pkl
+*.png 
