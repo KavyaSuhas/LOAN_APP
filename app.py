@@ -52,17 +52,20 @@ def load_models():
         try:
             logger.info("Loading classifier...")
             classifier_path = os.path.join(BASE_DIR, model_files['classifier'])
-            classifier = joblib.load(classifier_path)
+            with open(classifier_path, 'rb') as f:
+                classifier = joblib.load(f)
             logger.info("Classifier loaded successfully")
             
             logger.info("Loading regressor...")
             regressor_path = os.path.join(BASE_DIR, model_files['regressor'])
-            regressor = joblib.load(regressor_path)
+            with open(regressor_path, 'rb') as f:
+                regressor = joblib.load(f)
             logger.info("Regressor loaded successfully")
             
             logger.info("Loading scaler...")
             scaler_path = os.path.join(BASE_DIR, model_files['scaler'])
-            scaler = joblib.load(scaler_path)
+            with open(scaler_path, 'rb') as f:
+                scaler = joblib.load(f)
             logger.info("Scaler loaded successfully")
         except Exception as e:
             logger.error(f"Error loading model: {str(e)}")
