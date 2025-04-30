@@ -20,8 +20,11 @@ Thumbs.db
 dataset.csv
 cleaned_loan_data.csv
 
-# Model files
+# Model files - ignore all except specific ones
 *.pkl
+!credit_risk_classifier.pkl
+!loan_amount_regressor.pkl
+!scaler.pkl
 *.joblib
 *.h5
 *.model
