@@ -118,9 +118,10 @@
         {% if prediction %}
         <div class="result">
             <h2>Prediction Results</h2>
-            <p>Risk Level: <span class="risk-{{ 'high' if risk == 'High Risk' else 'low' }}">{{ risk }}</span></p>
-            <p>Probability of Default: {{ probability }}</p>
-            <p>Recommended Loan Amount: {{ recommendation }}</p>
+            <p><strong>Risk Level:</strong> {{ risk }}</p>
+            <p><strong>Probability:</strong> {{ probability }}</p>
+            <p><strong>Recommended Loan Amount (USD):</strong> {{ recommendation_usd }}</p>
+            <p><strong>Recommended Loan Amount (INR):</strong> {{ recommendation_inr }}</p>
         </div>
         {% endif %}
 

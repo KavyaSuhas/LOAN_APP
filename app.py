@@ -142,12 +142,16 @@ def predict():
                 risk_prob = proba[1]
             else:
                 risk_prob = proba[0]
-            recommended_amount = regressor.predict(scaled)[0]
+            recommended_amount_usd = regressor.predict(scaled)[0]
+            
+            # Convert USD to INR (1 USD = 83.5 INR)
+            recommended_amount_inr = recommended_amount_usd * 83.5
             
             logger.info("Prediction results:", {
                 'risk': risk,
                 'risk_prob': risk_prob,
-                'recommended_amount': recommended_amount
+                'recommended_amount_usd': recommended_amount_usd,
+                'recommended_amount_inr': recommended_amount_inr
             })
         except Exception as e:
             logger.error(f"Error in prediction: {str(e)}")
@@ -159,7 +163,8 @@ def predict():
                             prediction=True,
                             risk='High Risk' if risk else 'Low Risk',
                             probability=f"{risk_prob:.2%}",
-                            recommendation=f"${recommended_amount:,.2f}")
+                            recommendation_usd=f"${recommended_amount_usd:,.2f}",
+                            recommendation_inr=f"₹{recommended_amount_inr:,.2f}")
     except Exception as e:
         error_msg = f"Error during prediction: {str(e)}"
         logger.error(f"\nError in prediction:")
