@@ -34,32 +34,47 @@ def load_models():
         logger.info("Checking model files:")
         # Check if files exist
         for model_name, filename in model_files.items():
-            file_path = os.path.join(BASE_DIR, filename)
+            # Try multiple possible locations
+            possible_paths = [
+                os.path.join(BASE_DIR, filename),  # Local development
+                os.path.join("/opt/render/project/src", filename),  # Render deployment
+                os.path.join("/app", filename),  # Docker deployment
+                os.path.join(os.getcwd(), filename)  # Current working directory
+            ]
+            
+            file_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    file_path = path
+                    break
+            
             logger.info(f"\nChecking {model_name} model:")
-            logger.info(f"  File path: {file_path}")
+            logger.info(f"  Possible paths: {possible_paths}")
+            logger.info(f"  Selected path: {file_path}")
+            
+            if file_path is None:
+                raise FileNotFoundError(f"Model file not found: {filename}")
+            if not os.access(file_path, os.R_OK):
+                raise PermissionError(f"Cannot read model file: {filename}")
+            
             logger.info(f"  File exists: {os.path.exists(file_path)}")
             if os.path.exists(file_path):
                 logger.info(f"  File size: {os.path.getsize(file_path)} bytes")
                 logger.info(f"  Readable: {os.access(file_path, os.R_OK)}")
-            
-            if not os.path.exists(file_path):
-                raise FileNotFoundError(f"Model file not found: {filename}")
-            if not os.access(file_path, os.R_OK):
-                raise PermissionError(f"Cannot read model file: {filename}")
         
         logger.info("\nLoading models:")
         # Load models
         try:
             logger.info("Loading classifier...")
-            classifier = joblib.load(os.path.join(BASE_DIR, model_files['classifier']))
+            classifier = joblib.load(file_path)
             logger.info("Classifier loaded successfully")
             
             logger.info("Loading regressor...")
-            regressor = joblib.load(os.path.join(BASE_DIR, model_files['regressor']))
+            regressor = joblib.load(file_path)
             logger.info("Regressor loaded successfully")
             
             logger.info("Loading scaler...")
-            scaler = joblib.load(os.path.join(BASE_DIR, model_files['scaler']))
+            scaler = joblib.load(file_path)
             logger.info("Scaler loaded successfully")
         except Exception as e:
             logger.error(f"Error loading model: {str(e)}")
